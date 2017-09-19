@@ -40,4 +40,10 @@ class BoardTest < Minitest::Test
 
     assert_equal 'X', @board.squares[1]
   end
+
+  def test_it_will_know_the_available_squares
+    (2..9).each { |n| @board.set(n, n.even? ? 'X' : 'O')}
+
+    assert_equal [1], @board.available_squares
+  end
 end

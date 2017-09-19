@@ -1,4 +1,8 @@
+require_relative './tools'
+
 class Board
+  include Tools
+
   attr_reader :squares
 
   def initialize()
@@ -19,21 +23,21 @@ class Board
     @squares.all?(&method(:check_value))
   end
 
-  def normalize_square_number(number)
-    number - 1
+  def available_squares
+    @squares.select { |val| !check_value(val) }
   end
 
-  def check_value(val)
-    %w(X O).include?(val)
+  def reset
+    @squares = Array(1..9)
   end
 
   def draw
     sep = "\t+---+---+---+\n"
-    puts sep
+    output(sep)
 
     @squares.each_slice(3).each do |slice|
-      puts "\t| #{slice.join(' | ')} |"
-      puts sep
+      output("\t| #{slice.join(' | ')} |")
+      output(sep)
     end
   end
 end
