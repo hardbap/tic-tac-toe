@@ -1,3 +1,30 @@
 class Board
+  attr_reader :squares
 
+  def initialize()
+    @squares = Array(1..9)
+  end
+
+  def set(square_number, value)
+    index = normalize_square_number(square_number)
+
+    return -1 unless (0..8).include?(index)
+    return nil if %w(X Y).include?(squares[index])
+
+    @squares[index] = value
+  end
+
+  def normalize_square_number(number)
+    number - 1
+  end
+
+  def draw
+    sep = "\t+---+---+---+\n"
+    puts sep
+
+    @squares.each_slice(3).each_with_index do |slice, index|
+      puts "\t| #{slice.join(' | ')} |"
+      puts sep
+    end
+  end
 end
