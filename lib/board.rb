@@ -22,7 +22,7 @@ class Board
     sep = "\t+---+---+---+\n"
     puts sep
 
-    @squares.each_slice(3).each_with_index do |slice, index|
+    @squares.each_slice(3).each do |slice|
       puts "\t| #{slice.join(' | ')} |"
       puts sep
     end
