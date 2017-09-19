@@ -6,10 +6,10 @@ class Board
   end
 
   def set(square_number, value)
-    index = normalize_square_number(square_number)
-
-    return -1 unless (0..8).include?(index)
+    return -1 unless (1..9).include?(square_number)
     return -2 unless check_value(value)
+
+    index = normalize_square_number(square_number)
     return nil if check_value(squares[index])
 
     @squares[index] = value
