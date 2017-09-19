@@ -31,13 +31,5 @@ class Board
     @squares = Array(1..9)
   end
 
-  def draw
-    sep = "\t+---+---+---+\n"
-    output(sep)
 
-    @squares.each_slice(3).each do |slice|
-      output("\t| #{slice.join(' | ')} |")
-      output(sep)
-    end
-  end
 end

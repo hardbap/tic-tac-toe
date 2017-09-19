@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require_relative './lib/game'
+require_relative './lib/hostess'
 
-Game.new.start
+Hostess.new.start

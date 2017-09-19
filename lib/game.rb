@@ -1,7 +1,6 @@
 require_relative './board'
 require_relative './player'
 require_relative './tools'
-require 'pry'
 
 class Game
   include Tools
@@ -13,62 +12,60 @@ class Game
     @log = []
   end
 
-  def start
-    human_player_mark = ask('Which player do you want to be? X or O').upcase
+  def start(human_player_mark)
+    @human_player    = Player.new('Player One', human_player_mark)
+    @computer_player = Player.new('WOPR', other_mark(human_player_mark))
+  end
 
-    if check_value(human_player_mark)
-      notify("You have selected #{human_player_mark}.")
-      @human_player    = Player.new('Player One', human_player_mark)
-      @computer_player = Player.new('WOPR', other_mark(human_player_mark))
-      play
-    else
-      uhoh("You must enter X or O.")
-      restart
+  def human_move(square)
+    @board.set(square, human_player.mark)
+  end
+
+  def ai_move
+    computer_player.make_move(@board.available_squares).tap do |square|
+      @board.set(square, computer_player.mark)
     end
   end
 
-  def play
-    until game_over?
-      @board.draw
-      square_selected = ask("Enter the square number to place #{human_player.mark}").to_i
-
-      case @board.set(square_selected, human_player.mark)
-      when -1
-        uhoh("Please enter a value 1 to 9.")
-      when nil
-        uhoh("That spot has already been selected.")
-      else
-        log << [square_selected, human_player.mark]
-        break if game_over?
-        ai_move = computer_player.make_move(@board.available_squares)
-        @board.set(ai_move, computer_player.mark)
-        log << [ai_move, computer_player.mark]
-      end
-    end
-
-    done
+  def last_move
+    log.last
   end
 
-  def done
-    if game_is_won?(*log.last)
-      alert("#{log.last.last} won on turn #{log.size}.")
-    else
-      alert("Game ended in a draw.")
-    end
+  def play_area
+    @board.squares
+  end
 
-    @board.draw
+  def turn_number
+    log.count
+  end
 
-    restart if ask("Would you like to play again? (Y/N)").upcase == 'Y'
+  def log_human_move(square)
+    log << [square, human_player.mark]
+  end
+
+  def log_ai_move(square)
+    log << [square, computer_player.mark]
   end
 
   def restart
     @board.reset
     @log.clear
-    start
+  end
+
+  def check_winner
+    game_is_won?(*last_move)
+  end
+
+  def last_mark_placed
+    last_move.last
   end
 
   def game_over?
-    log.size > 4 && (game_is_won?(*log.last) || game_is_a_draw?)
+    legal_game? && (check_winner || game_is_a_draw?)
+  end
+
+  def legal_game?
+    log.size > 4
   end
 
   def game_is_a_draw?
@@ -92,8 +89,8 @@ class Game
     win_conditions.select { |wc| wc.include?(square_number) }
   end
 
-  def game_is_won?(last_square, mark)
-    square_number = normalize_square_number(last_square)
+  def game_is_won?(square, mark)
+    square_number = normalize_square_number(square)
     win_conditions_for_square(square_number).any? do |wc|
       wc.map do |s|
         @board.squares[s]
