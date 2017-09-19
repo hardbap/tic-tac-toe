@@ -16,6 +16,16 @@ class BoardTest < Minitest::Test
     refute @board.set(2, 'O')
   end
 
+  def test_it_will_know_when_full
+    @board.set(1, 'O')
+
+    refute @board.full?, 'Board is not full'
+
+    (2..9).each { |n| @board.set(n, n.even? ? 'X' : 'O')}
+
+    assert @board.full?, 'Board is full'
+  end
+
   def test_it_will_return_minus_one_for_bad_square
     assert_equal Integer(-1), @board.set(10, 'X'), '10 is an invalid square'
     assert_equal Integer(-1), @board.set(0, 'X'), '0 is an invalid square'

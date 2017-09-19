@@ -9,13 +9,21 @@ class Board
     index = normalize_square_number(square_number)
 
     return -1 unless (0..8).include?(index)
-    return nil if %w(X Y).include?(squares[index])
+    return nil if check_value(squares[index])
 
     @squares[index] = value
   end
 
+  def full?
+    @squares.all?(&method(:check_value))
+  end
+
   def normalize_square_number(number)
     number - 1
+  end
+
+  def check_value(val)
+    %w(X O).include?(val)
   end
 
   def draw
