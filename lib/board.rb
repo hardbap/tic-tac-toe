@@ -9,6 +9,7 @@ class Board
     index = normalize_square_number(square_number)
 
     return -1 unless (0..8).include?(index)
+    return -2 unless check_value(value)
     return nil if check_value(squares[index])
 
     @squares[index] = value
