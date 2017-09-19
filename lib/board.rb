@@ -5,8 +5,8 @@ class Board
 
   attr_reader :squares
 
-  def initialize()
-    @squares = Array(1..9)
+  def initialize
+    reset
   end
 
   def set(square_number, mark)

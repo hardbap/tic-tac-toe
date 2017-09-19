@@ -46,4 +46,11 @@ class BoardTest < Minitest::Test
 
     assert_equal [1], @board.available_squares
   end
+
+  def test_it_will_reset_itself
+    empty_board = Array(1..9)
+    empty_board.each { |n| @board.set(n, n.even? ? 'X' : 'O')}
+    @board.reset
+    assert_equal empty_board, @board.squares
+  end
 end
