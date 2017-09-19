@@ -5,14 +5,14 @@ class Board
     @squares = Array(1..9)
   end
 
-  def set(square_number, value)
+  def set(square_number, mark)
     return -1 unless (1..9).include?(square_number)
-    return -2 unless check_value(value)
+    return -2 unless check_value(mark)
 
     index = normalize_square_number(square_number)
     return nil if check_value(squares[index])
 
-    @squares[index] = value
+    @squares[index] = mark
   end
 
   def full?
