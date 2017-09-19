@@ -7,6 +7,7 @@ class Player
   end
 
   def make_move(available_squares)
+    # Keep our AI super simple for now.
     available_squares.sample
   end
 end
