@@ -1,9 +1,11 @@
 require_relative './game'
 require_relative './tools'
+require_relative './view_helpers'
 
 class Hostess
   include Tools
-
+  include ViewHelpers
+  
   attr_reader :game
 
   def start
