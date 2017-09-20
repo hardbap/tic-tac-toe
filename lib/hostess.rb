@@ -8,6 +8,9 @@ class Hostess
 
   attr_reader :game
 
+  # Public: Start our game by prompting the human to select a mark.
+  #
+  # Returns nothing.
   def start
     human_player_mark = ask('Which player do you want to be? X or O ').upcase
 
@@ -20,6 +23,11 @@ class Hostess
     end
   end
 
+  # Private: Play a game of tic-tac-toe.
+  #
+  # human_player_mark - The String mark the human has selected.
+  #
+  # Returns nothing.
   def play(human_player_mark)
     @game = Game.new(human_player_mark)
 
@@ -44,6 +52,10 @@ class Hostess
     wrapup
   end
 
+  # Private: Wrap up a completed game of tic-tac-toe. Starts a new game if the
+  # player chooses to do so.
+  #
+  # Returns nothing.
   def wrapup
     if game.check_winner
       alert("#{game.last_mark_placed} wins on turn #{game.turn_number}!")
@@ -56,6 +68,9 @@ class Hostess
     start if ask('Would you like to play again? (Y/N) ').upcase == 'Y'
   end
 
+  # Private: Show the game board in its current state.
+  #
+  # Returns a String representation of the game board.
   def show_board
 
     sep = "\t+---+---+---+\n"
@@ -65,7 +80,5 @@ class Hostess
       output("\t| #{slice.join(' | ')} |")
       output(sep)
     end
-
   end
-
 end
