@@ -6,10 +6,6 @@ class Hostess
 
   attr_reader :game
 
-  def initialize
-    @game = Game.new
-  end
-
   def start
     human_player_mark = ask('Which player do you want to be? X or O ').upcase
 
@@ -17,29 +13,29 @@ class Hostess
       notify("You have selected #{human_player_mark}.")
       play(human_player_mark)
     else
-      uhoh("You must enter X or O.")
+      uhoh('You must enter X or O.')
       start
     end
   end
 
   def play(human_player_mark)
-    game.start(human_player_mark)
+    @game = Game.new(human_player_mark)
 
     until game.game_over?
       show_board
-      square_selected = ask("Enter the square number to place your #{human_player_mark}").to_i
+      square_selected = ask("Enter the square number to place your #{human_player_mark} ").to_i
 
       case game.human_move(square_selected)
       when -1
-        uhoh("Please enter a value 1 to 9.")
+        uhoh('Please enter a value 1 to 9.')
       when nil
-        uhoh("That spot has already been selected.")
+        uhoh('That spot has already been selected.')
       else
         game.log_human_move(square_selected)
 
         break if game.game_over?
 
-        notify("[AI is thinking...]")
+        notify('[AI is thinking...]')
         game.log_ai_move(game.ai_move)
       end
     end
@@ -51,12 +47,12 @@ class Hostess
     if game.check_winner
       alert("#{game.last_mark_placed} wins on turn #{game.turn_number}!")
     else
-      alert("Game is a draw.")
+      alert('Game is a draw.')
     end
 
     show_board
 
-    go_again if ask("Would you like to play again? (Y/N) ").upcase == 'Y'
+    go_again if ask('Would you like to play again? (Y/N) ').upcase == 'Y'
   end
 
   def go_again

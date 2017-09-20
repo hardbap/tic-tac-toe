@@ -7,12 +7,10 @@ class Game
 
   attr_reader :human_player, :computer_player, :log
 
-  def initialize(board=Board.new)
+  def initialize(human_player_mark, board=Board.new)
     @board = board
     @log = []
-  end
 
-  def start(human_player_mark)
     @human_player    = Player.new('Player One', human_player_mark)
     @computer_player = Player.new('WOPR', other_mark(human_player_mark))
   end
@@ -74,14 +72,17 @@ class Game
 
   def win_conditions
     [
+      # rows
       [0, 1, 2],
       [3, 4, 5],
       [6, 7, 8],
+      # columns
       [0, 3, 6],
       [1, 4, 7],
       [2, 5, 8],
+      # diagonals
       [0, 4, 8],
-      [2, 4, 6]
+      [2, 4, 6],
     ]
   end
 

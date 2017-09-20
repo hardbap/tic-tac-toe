@@ -4,7 +4,7 @@ require_relative '../lib/game'
 class GameTest < Minitest::Test
 
   def setup
-    @game = Game.new
+    @game = Game.new('X')
   end
 
   def test_it_will_have_all_win_conditions
@@ -61,7 +61,7 @@ class GameTest < Minitest::Test
 
     (1..9).each { |n| board.set(n, n.even? ? 'X' : 'O')}
 
-    oh_wins_game = Game.new(board)
+    oh_wins_game = Game.new('X', board)
 
     assert oh_wins_game.game_is_won?(3, 'O'), '"O" wins on the 2 diagonal'
     assert oh_wins_game.game_is_won?(1, 'O'), '"O" wins on the 0 diagonal'
