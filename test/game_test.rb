@@ -63,9 +63,9 @@ class GameTest < Minitest::Test
 
     oh_wins_game = Game.new('X', board)
 
-    assert oh_wins_game.game_is_won?(3, 'O'), '"O" wins on the 2 diagonal'
-    assert oh_wins_game.game_is_won?(1, 'O'), '"O" wins on the 0 diagonal'
-    refute oh_wins_game.game_is_won?(2, 'X'), '"X" does not win this game'
+    assert oh_wins_game.game_is_won_at_square?(3), '"O" wins on the 2 diagonal'
+    assert oh_wins_game.game_is_won_at_square?(1), '"O" wins on the 0 diagonal'
+    refute oh_wins_game.game_is_won_at_square?(2), '"X" does not win this game'
   end
 
   def test_it_will_know_when_game_is_a_draw

@@ -84,6 +84,13 @@ class Game
     last_move.last
   end
 
+  # Public: The last square played.
+  #
+  # Returns an Integer where the last mark was placed.
+  def last_square_marked
+    last_move.first
+  end
+
   # Public: Checks if the game is over. The game is over when at least 5 turns
   # are completed and there is a winner or the game is drawn.
   #
@@ -104,7 +111,7 @@ class Game
   #
   # Returns TrueClass or FalseClass.
   def game_is_a_draw?
-    # NOTE: this is most likely not optimal. The board could be full but not
+    # NOTE: This is most likely not optimal. The board could be full but not
     # drawn. This should really be the inverse of #game_is_won? but this will
     # be okay for our MVP.
     @board.full?
@@ -114,7 +121,8 @@ class Game
   #
   # Returns TrueClass or FalseClass.
   def check_winner
-    game_is_won?(*last_move)
+    # NOTE: This could be improved by checking the entire board for a win.
+    game_is_won_at_square?(last_square_marked)
   end
 
   # Private: All possible victory conditions.
@@ -148,11 +156,11 @@ class Game
   # Private: Checks if the game has been won by the given move.
   #
   # square - The Integer square to check.
-  # mark   - The Stirng mark to check.
   #
-  # Returns TrueClass or FalseClass. 
-  def game_is_won?(square, mark)
+  # Returns TrueClass or FalseClass.
+  def game_is_won_at_square?(square)
     square_number = normalize_square_number(square)
+    mark = @board.squares[square_number]
     win_conditions_for_square(square_number).any? do |wc|
       play_area.values_at(*wc).all? { |c| c == mark }
     end
