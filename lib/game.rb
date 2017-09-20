@@ -92,9 +92,7 @@ class Game
   def game_is_won?(square, mark)
     square_number = normalize_square_number(square)
     win_conditions_for_square(square_number).any? do |wc|
-      wc.map do |s|
-        @board.squares[s]
-      end.all? { |c| c == mark }
+      play_area.values_at(*wc).all? { |c| c == mark }
     end
   end
 
