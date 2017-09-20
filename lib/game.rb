@@ -16,12 +16,15 @@ class Game
   end
 
   def human_move(square)
-    @board.set(square, human_player.mark)
+    @board.set(square, human_player.mark).tap do |result|
+      log_human_move(square) if result == human_player.mark
+    end
   end
 
   def ai_move
     computer_player.make_move(@board.available_squares).tap do |square|
       @board.set(square, computer_player.mark)
+      log_ai_move(square)
     end
   end
 

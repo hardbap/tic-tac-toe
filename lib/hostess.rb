@@ -33,12 +33,11 @@ class Hostess
       when nil
         uhoh('That spot has already been selected.')
       else
-        game.log_human_move(square_selected)
-
         break if game.game_over?
 
         notify('[AI is thinking...]')
-        game.log_ai_move(game.ai_move)
+
+        game.ai_move
       end
     end
 
