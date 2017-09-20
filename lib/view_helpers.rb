@@ -1,5 +1,6 @@
 require 'highline/import'
 
+# Public: A set of methods to facilitate communication with the Human.
 module ViewHelpers
 
     # Public: Request input from the user.
