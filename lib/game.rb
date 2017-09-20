@@ -45,11 +45,6 @@ class Game
     log << [square, computer_player.mark]
   end
 
-  def restart
-    @board.reset
-    @log.clear
-  end
-
   def check_winner
     game_is_won?(*last_move)
   end

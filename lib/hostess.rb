@@ -5,7 +5,7 @@ require_relative './view_helpers'
 class Hostess
   include Tools
   include ViewHelpers
-  
+
   attr_reader :game
 
   def start
@@ -54,12 +54,7 @@ class Hostess
 
     show_board
 
-    go_again if ask('Would you like to play again? (Y/N) ').upcase == 'Y'
-  end
-
-  def go_again
-    game.restart
-    start
+    start if ask('Would you like to play again? (Y/N) ').upcase == 'Y'
   end
 
   def show_board
