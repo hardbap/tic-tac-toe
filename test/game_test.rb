@@ -69,6 +69,76 @@ class GameTest < Minitest::Test
   end
 
   def test_it_will_know_when_game_is_a_draw
+    stale_board = Board.new
 
+    x_moves = [1,3,5,6,8]
+    o_moves = [2,4,7,9]
+
+    x_moves.each { |n| stale_board.set(n, 'X') }
+    o_moves.each { |n| stale_board.set(n, 'O') }
+
+    stale_game = Game.new('X', stale_board)
+
+    assert stale_game.game_is_a_draw?
+  end
+
+  def test_it_will_know_when_it_is_a_legal
+    @game.log_human_move(1)
+    @game.log_ai_move(2)
+    @game.log_human_move(3)
+    @game.log_ai_move(4)
+
+    refute @game.legal_game?
+
+    @game.log_human_move(5)
+
+    assert @game.legal_game?
+  end
+
+  def test_it_will_know_the_last_mark_placed
+    @game.human_move(5)
+
+    assert_equal 'X', @game.last_mark_placed
+  end
+
+  def test_it_will_log_the_AI_move
+    @game.log_ai_move(9)
+
+    assert_equal [9, 'O'], @game.last_move
+  end
+
+  def test_it_will_log_human_move
+    @game.log_human_move(1)
+
+    assert_equal [1, 'X'], @game.last_move
+  end
+
+  def test_it_will_know_the_last_move
+    @game.log_human_move(1)
+    @game.log_ai_move(9)
+
+    assert_equal [9, 'O'], @game.last_move
+  end
+
+  def test_it_will_know_the_number_of_turns_taken
+    @game.log_human_move(1)
+    @game.log_ai_move(9)
+
+    assert_equal 2, @game.turn_number
+  end
+
+  def test_it_will_expose_the_boards_squares
+    board = Board.new
+
+    (1..9).each { |n| board.set(n, n.even? ? 'X' : 'O')}
+
+    oh_wins_game = Game.new('X', board)
+
+    assert_equal board.squares, oh_wins_game.play_area
+  end
+
+  def test_it_will_assign_other_mark_to_AI
+    assert_equal 'O', Game.new('X').computer_player.mark, 'AI should be "O"'
+    assert_equal 'X', Game.new('O').computer_player.mark, 'AI should be "X"'
   end
 end
