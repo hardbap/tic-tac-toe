@@ -12,7 +12,7 @@ class Hostess
   #
   # Returns nothing.
   def start
-    human_player_mark = ask('Which player do you want to be? X or O ').upcase
+    human_player_mark = ask('Which player do you want to be? X or O: ').upcase
 
     if check_value(human_player_mark)
       notify("You have selected #{human_player_mark}.")
@@ -33,7 +33,7 @@ class Hostess
 
     until game.game_over?
       show_board
-      square_selected = ask("Enter the square number to place your #{human_player_mark} ").to_i
+      square_selected = ask("Enter the square number to place your #{human_player_mark}: ").to_i
 
       case game.human_move(square_selected)
       when -1
